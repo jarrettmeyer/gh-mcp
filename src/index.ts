@@ -2,13 +2,15 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { executeGhCommand } from "./execute.js";
-import { validateCommand } from "./validation.js";
+import { ALLOWED_COMMANDS_ANNOTATED, validateCommand } from "./validation.js";
 
 const SendCommandInputSchema = z.object({
   command: z.string().describe("The gh subcommand and arguments to run."),
 });
 
 type SendCommandInput = z.infer<typeof SendCommandInputSchema>;
+
+const SEND_COMMAND_DESCRIPTION = `Execute a gh CLI command. Provide the arguments after \`gh\` — e.g. \`issue list --repo cli/cli\`. Allowed commands: ${ALLOWED_COMMANDS_ANNOTATED}.`;
 
 const server = new McpServer({
   name: "gh-mcp",
@@ -18,7 +20,7 @@ const server = new McpServer({
 server.registerTool(
   "send_command",
   {
-    description: "Execute a gh CLI command. Provide the arguments after `gh` — e.g. `issue list --repo cli/cli`.",
+    description: SEND_COMMAND_DESCRIPTION,
     inputSchema: SendCommandInputSchema,
   },
   async ({ command }: SendCommandInput) => {

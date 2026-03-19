@@ -1,5 +1,5 @@
 /** Top-level gh commands that are fully allowed without restriction. */
-const ALLOWED_COMMANDS = new Set([
+export const ALLOWED_COMMANDS = new Set([
   "gist",
   "issue",
   "label",
@@ -13,13 +13,25 @@ const ALLOWED_COMMANDS = new Set([
   "workflow",
 ]);
 
-/** HTTP methods considered read-only for the `api` command. */
-const ALLOWED_HTTP_METHODS = new Set(["GET"]);
+/** Subcommands permitted under `auth`. */
+const ALLOWED_AUTH_SUBCOMMANDS = new Set(["status"]);
+
+/** HTTP methods permitted for the `api` command. */
+const ALLOWED_API_HTTP_METHODS = new Set(["GET"]);
 
 /** Sorted list of all top-level commands shown in rejection messages. */
 const ALLOWED_COMMANDS_LIST = [...ALLOWED_COMMANDS, "auth", "api"].sort().join(", ");
 
-/** Matches --method=VALUE or -X=VALUE flag syntax. */
+/** Sorted list with inline restriction notes for use in tool descriptions. */
+export const ALLOWED_COMMANDS_ANNOTATED = [
+  ...ALLOWED_COMMANDS,
+  `api (${[...ALLOWED_API_HTTP_METHODS].join("/")} only)`,
+  `auth (${[...ALLOWED_AUTH_SUBCOMMANDS].join("/")} only)`,
+].sort().join(", ");
+
+/** 
+ * Matches --method=VALUE or -X=VALUE flag syntax. 
+ */
 const METHOD_EQ_RE = /^(?:--method|-X)=(.+)$/;
 
 type ValidationResult = { valid: true } | { valid: false; reason: string };
@@ -60,15 +72,17 @@ export function validateCommand(command: string): ValidationResult {
   };
 }
 
-/** Validates `auth` subcommand — only `auth status` is permitted. */
+/** 
+ * Validates `auth` subcommand — only subcommands in ALLOWED_AUTH_SUBCOMMANDS are permitted. 
+ */
 function validateAuth(rest: string[]): ValidationResult {
-  if (rest[0] === "status") {
+  if (rest[0] !== undefined && ALLOWED_AUTH_SUBCOMMANDS.has(rest[0])) {
     return { valid: true };
   }
+  const allowed = [...ALLOWED_AUTH_SUBCOMMANDS].join(", ");
   return {
     valid: false,
-    reason:
-      "Only 'auth status' is allowed. Other auth subcommands (login, logout, etc.) are not permitted.",
+    reason: `Only 'auth ${allowed}' is allowed. Other auth subcommands (login, logout, etc.) are not permitted.`,
   };
 }
 
@@ -83,7 +97,7 @@ function validateApi(rest: string[]): ValidationResult {
     // --method=VALUE or -X=VALUE
     const eqMatch = METHOD_EQ_RE.exec(token);
     if (eqMatch) {
-      if (!ALLOWED_HTTP_METHODS.has(eqMatch[1].toUpperCase())) {
+      if (!ALLOWED_API_HTTP_METHODS.has(eqMatch[1].toUpperCase())) {
         return methodNotAllowed(eqMatch[1]);
       }
       continue;
@@ -98,7 +112,7 @@ function validateApi(rest: string[]): ValidationResult {
           reason: `Flag '${token}' requires a value.`,
         };
       }
-      if (!ALLOWED_HTTP_METHODS.has(value.toUpperCase())) {
+      if (!ALLOWED_API_HTTP_METHODS.has(value.toUpperCase())) {
         return methodNotAllowed(value);
       }
       i++; // skip the value token
