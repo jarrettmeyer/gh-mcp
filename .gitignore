@@ -1,5 +1,5 @@
 .worktrees/
+dist/
 node_modules/
 bun.lockb
-dist/
 .env
