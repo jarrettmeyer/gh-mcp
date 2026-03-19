@@ -4,30 +4,38 @@ This is a very thin wrapper around the `gh` CLI.
 
 ## Installation
 
-1. Install [bun](https://bun.com/docs/installation)
+1. Install the [GitHub CLI](https://cli.github.com/)
 
-2. Verify your `bun` installation
+2. Verify your `gh` installation
 
-    ```bash
-    bun --version
-    ```
+   ```bah
+   gh --version
+   ```
 
-3. Update your Claude Desktop configuration
+3. Install [bun](https://bun.com/docs/installation)
 
-    On MacOS, this is located at `~/Application Support/Claude/claude_desktop_config.json`.
+4. Verify your `bun` installation
 
-    ```json
-    {
-      "mcpServers": {
-        "gh": {
-          "command": "/path/to/.bun/bin/bun",
-          "args": ["run", "/path/to/gh-mcp/src/index.ts"]
-        }
-      }
-    }
-    ```
+   ```bash
+   bun --version
+   ```
 
-4. Restart Claude Desktop
+5. Update your Claude Desktop configuration
+
+   On MacOS, this is located at `~/Application Support/Claude/claude_desktop_config.json`.
+
+   ```json
+   {
+     "mcpServers": {
+       "gh": {
+         "command": "/path/to/.bun/bin/bun",
+         "args": ["run", "/path/to/gh-mcp/src/index.ts"]
+       }
+     }
+   }
+   ```
+
+6. Restart Claude Desktop
 
 ## Resources
 
