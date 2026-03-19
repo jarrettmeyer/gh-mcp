@@ -39,4 +39,7 @@ This is a very thin wrapper around the `gh` CLI.
 
 ## Resources
 
+- [Bun](https://bun.com/)
+- [GitHub CLI](https://cli.github.com/)
 - [jarrettmeyer/gh-mcp](https://github.com/jarrettmeyer/gh-mcp)
+- [Model Context Protocol TypeScript SDK](https://ts.sdk.modelcontextprotocol.io/)
