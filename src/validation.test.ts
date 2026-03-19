@@ -94,6 +94,40 @@ describe("validateCommand", () => {
     });
   });
 
+  describe("help flag", () => {
+    test("allows bare --help", () => {
+      expect(validateCommand("--help")).toEqual({ valid: true });
+    });
+
+    test("allows bare -h", () => {
+      expect(validateCommand("-h")).toEqual({ valid: true });
+    });
+
+    test("allows allowed command + --help", () => {
+      expect(validateCommand("pr --help")).toEqual({ valid: true });
+    });
+
+    test("allows disallowed command + --help", () => {
+      expect(validateCommand("extension --help")).toEqual({ valid: true });
+    });
+
+    test("allows disallowed command + -h", () => {
+      expect(validateCommand("config -h")).toEqual({ valid: true });
+    });
+
+    test("allows auth --help (normally restricted)", () => {
+      expect(validateCommand("auth --help")).toEqual({ valid: true });
+    });
+
+    test("allows nested subcommand + --help", () => {
+      expect(validateCommand("pr list --help")).toEqual({ valid: true });
+    });
+
+    test("allows restricted subcommand + --help (auth login --help)", () => {
+      expect(validateCommand("auth login --help")).toEqual({ valid: true });
+    });
+  });
+
   describe("empty / whitespace", () => {
     test("rejects empty string", () => {
       const result = validateCommand("");

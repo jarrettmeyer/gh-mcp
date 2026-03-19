@@ -19,6 +19,9 @@ const ALLOWED_AUTH_SUBCOMMANDS = new Set(["status"]);
 /** HTTP methods permitted for the `api` command. */
 const ALLOWED_API_HTTP_METHODS = new Set(["GET"]);
 
+/** Flags that request help output — allowed on any command. */
+const HELP_FLAGS = new Set(["--help", "-h"]);
+
 /** Sorted list of all top-level commands shown in rejection messages. */
 const ALLOWED_COMMANDS_LIST = [...ALLOWED_COMMANDS, "auth", "api"].sort().join(", ");
 
@@ -52,6 +55,11 @@ export function validateCommand(command: string): ValidationResult {
 
   if (tokens.length === 0) {
     return { valid: false, reason: "Command cannot be empty." };
+  }
+
+  // Always allow '--help' for discovery.
+  if (tokens.some((t) => HELP_FLAGS.has(t))) {
+    return { valid: true };
   }
 
   const [topLevel, ...rest] = tokens;
