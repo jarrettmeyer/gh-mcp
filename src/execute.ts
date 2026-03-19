@@ -12,9 +12,7 @@ export interface GhCommandResult {
  * Both stdout and stderr are captured; the exit code is returned alongside them
  * so callers can distinguish success from failure without throwing.
  */
-export async function executeGhCommand(
-  command: string,
-): Promise<GhCommandResult> {
+export async function executeGhCommand(command: string): Promise<GhCommandResult> {
   const args = command.trim().split(/\s+/).filter(Boolean);
 
   const proc = Bun.spawn(["gh", ...args], {

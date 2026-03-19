@@ -9,10 +9,7 @@ Add to Claude Desktop with the following configuration.
   "mcpServers": {
     "gh": {
       "command": "/path/to/.bun/bin/bun",
-      "args": [
-        "run",
-        "/path/to/gh-mcp/src/index.ts"
-      ]
+      "args": ["run", "/path/to/gh-mcp/src/index.ts"]
     }
   }
 }

@@ -27,10 +27,12 @@ export const ALLOWED_COMMANDS_ANNOTATED = [
   ...ALLOWED_COMMANDS,
   `api (${[...ALLOWED_API_HTTP_METHODS].join("/")} only)`,
   `auth (${[...ALLOWED_AUTH_SUBCOMMANDS].join("/")} only)`,
-].sort().join(", ");
+]
+  .sort()
+  .join(", ");
 
-/** 
- * Matches --method=VALUE or -X=VALUE flag syntax. 
+/**
+ * Matches --method=VALUE or -X=VALUE flag syntax.
  */
 const METHOD_EQ_RE = /^(?:--method|-X)=(.+)$/;
 
@@ -72,8 +74,8 @@ export function validateCommand(command: string): ValidationResult {
   };
 }
 
-/** 
- * Validates `auth` subcommand — only subcommands in ALLOWED_AUTH_SUBCOMMANDS are permitted. 
+/**
+ * Validates `auth` subcommand — only subcommands in ALLOWED_AUTH_SUBCOMMANDS are permitted.
  */
 function validateAuth(rest: string[]): ValidationResult {
   if (rest[0] !== undefined && ALLOWED_AUTH_SUBCOMMANDS.has(rest[0])) {
