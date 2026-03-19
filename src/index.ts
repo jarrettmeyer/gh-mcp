@@ -4,16 +4,24 @@ import { z } from "zod";
 import { executeGhCommand } from "./execute.js";
 import { validateCommand } from "./validation.js";
 
+const SendCommandInputSchema = z.object({
+  command: z.string().describe("The gh subcommand and arguments to run."),
+});
+
+type SendCommandInput = z.infer<typeof SendCommandInputSchema>;
+
 const server = new McpServer({
   name: "gh-mcp",
   version: "0.1.0",
 });
 
-server.tool(
+server.registerTool(
   "send_command",
-  "Execute a gh CLI command. Provide the arguments after `gh` — e.g. `issue list --repo cli/cli`.",
-  { command: z.string().describe("The gh subcommand and arguments to run.") },
-  async ({ command }) => {
+  {
+    description: "Execute a gh CLI command. Provide the arguments after `gh` — e.g. `issue list --repo cli/cli`.",
+    inputSchema: SendCommandInputSchema,
+  },
+  async ({ command }: SendCommandInput) => {
     const validation = validateCommand(command);
     if (!validation.valid) {
       return {
