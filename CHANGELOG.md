@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-03-30
+
+### Fixed
+
+- Harden `tokenize()` with explicit error handling for unsafe or malformed input.
+
+### Changed
+
+- Bump `@modelcontextprotocol/sdk` to 1.28.0.
+- Bump `typescript` to 6.0.2.
+- Bump `actions/checkout` to v6.
+
 ## [0.1.0] - 2026-03-19
 
 ### Added
@@ -20,5 +32,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Dependabot configuration for weekly npm dependency updates.
 - 34 unit tests covering validation and help flag handling.
 
-[Unreleased]: https://github.com/jarrettmeyer/gh-mcp/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/jarrettmeyer/gh-mcp/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/jarrettmeyer/gh-mcp/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/jarrettmeyer/gh-mcp/releases/tag/v0.1.0
