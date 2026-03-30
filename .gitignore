@@ -1,3 +1,4 @@
+.scratch/
 .worktrees/
 dist/
 node_modules/
