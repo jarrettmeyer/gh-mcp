@@ -1,3 +1,5 @@
+import { tokenize } from "./tokenize.js";
+
 /** Top-level gh commands that are fully allowed without restriction. */
 export const ALLOWED_COMMANDS = new Set([
   "gist",
@@ -51,7 +53,7 @@ type ValidationResult = { valid: true } | { valid: false; reason: string };
  * - Empty or whitespace-only commands are rejected.
  */
 export function validateCommand(command: string): ValidationResult {
-  const tokens = command.trim().split(/\s+/).filter(Boolean);
+  const tokens = tokenize(command);
 
   if (tokens.length === 0) {
     return { valid: false, reason: "Command cannot be empty." };
