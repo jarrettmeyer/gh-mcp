@@ -41,6 +41,14 @@ export const ALLOWED_COMMANDS_ANNOTATED = [
  */
 const METHOD_EQ_RE = /^(?:--method|-X)=(.+)$/;
 
+/**
+ * Matches -X<VALUE> concatenated short-flag syntax (e.g. -XPOST, -XDELETE).
+ *
+ * shell-quote parses `-X"POST"` as the single token `-XPOST`, which bypasses
+ * the exact `token === "-X"` check. This regex catches that form explicitly.
+ */
+const SHORT_METHOD_CONCAT_RE = /^-X(.+)$/;
+
 type ValidationResult = { valid: true } | { valid: false; reason: string };
 
 /**
@@ -111,6 +119,15 @@ function validateApi(rest: string[]): ValidationResult {
     if (eqMatch) {
       if (!ALLOWED_API_HTTP_METHODS.has(eqMatch[1].toUpperCase())) {
         return methodNotAllowed(eqMatch[1]);
+      }
+      continue;
+    }
+
+    // -XVALUE concatenated form (e.g. -XPOST from shell-quote parsing -X"POST")
+    const concatMatch = SHORT_METHOD_CONCAT_RE.exec(token);
+    if (concatMatch) {
+      if (!ALLOWED_API_HTTP_METHODS.has(concatMatch[1].toUpperCase())) {
+        return methodNotAllowed(concatMatch[1]);
       }
       continue;
     }

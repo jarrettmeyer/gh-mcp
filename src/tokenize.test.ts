@@ -42,11 +42,8 @@ describe("tokenize - multi-word flag values", () => {
 describe("tokenize - multiline bodies", () => {
   test("body token preserves newlines as a single string", () => {
     const tokens = tokenize('issue create -t "Title" -b "Line 1\\nLine 2\\nLine 3"');
-    // shell-quote keeps the body as one token with literal \n sequences preserved
     expect(tokens).toHaveLength(6);
-    expect(tokens[5]).toContain("Line 1");
-    expect(tokens[5]).toContain("Line 2");
-    expect(tokens[5]).toContain("Line 3");
+    expect(tokens[5]).toBe("Line 1\\nLine 2\\nLine 3");
   });
 });
 
@@ -56,7 +53,6 @@ describe("tokenize - equals-sign flag syntax", () => {
   });
 
   test("--search=value keeps flag and value as one token", () => {
-    // shell-quote parses --search="open bugs" as a single token "--search=open bugs"
     const tokens = tokenize('issue list --search="open bugs"');
     expect(tokens).toHaveLength(3);
     expect(tokens[2]).toBe("--search=open bugs");
@@ -83,13 +79,41 @@ describe("tokenize - quotes within quotes and escaping", () => {
   });
 });
 
-describe("tokenize - shell operators are discarded", () => {
-  test("pipe operator is discarded", () => {
-    expect(tokenize("issue list | grep bug")).toEqual(["issue", "list", "grep", "bug"]);
+describe("tokenize - unsupported syntax throws", () => {
+  test("pipe operator throws", () => {
+    expect(() => tokenize("issue list | grep bug")).toThrow(/not supported/i);
   });
 
-  test("redirect operator is discarded", () => {
-    expect(tokenize("issue list > output.txt")).toEqual(["issue", "list", "output.txt"]);
+  test("redirect operator throws", () => {
+    expect(() => tokenize("issue list > output.txt")).toThrow(/not supported/i);
+  });
+
+  test("semicolon operator throws", () => {
+    expect(() => tokenize("issue list; issue delete")).toThrow(/not supported/i);
+  });
+
+  test("inline comment (#) throws", () => {
+    expect(() => tokenize("api /repos/cli/cli # --method DELETE")).toThrow(/not supported/i);
+  });
+
+  test("glob pattern throws", () => {
+    expect(() => tokenize("issue list *.json")).toThrow(/not supported/i);
+  });
+
+  test("unbalanced double quote throws", () => {
+    expect(() => tokenize('issue create -t "My title')).toThrow(/quote/i);
+  });
+
+  test("unbalanced single quote throws", () => {
+    expect(() => tokenize("issue create -t 'My title")).toThrow(/quote/i);
+  });
+
+  test("shell variable reference throws", () => {
+    expect(() => tokenize('issue create -t "$TITLE"')).toThrow(/variable/i);
+  });
+
+  test("shell variable without quotes throws", () => {
+    expect(() => tokenize("issue list $REPO")).toThrow(/variable/i);
   });
 });
 
