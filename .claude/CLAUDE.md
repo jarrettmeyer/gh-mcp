@@ -19,5 +19,5 @@ After making changes, always run:
 ```sh
 bun test
 bun run typecheck
-bun run format
+bun run format:check
 ```
