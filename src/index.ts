@@ -26,7 +26,14 @@ server.registerTool(
     inputSchema: SendCommandInputSchema,
   },
   async ({ command }: SendCommandInput) => {
-    const validation = validateCommand(command);
+    let validation;
+    try {
+      validation = validateCommand(command);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Command parsing failed.";
+      return { isError: true, content: [{ type: "text", text: message }] };
+    }
+
     if (!validation.valid) {
       return {
         isError: true,
@@ -34,7 +41,13 @@ server.registerTool(
       };
     }
 
-    const result = await executeGhCommand(command);
+    let result;
+    try {
+      result = await executeGhCommand(command);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Command execution failed.";
+      return { isError: true, content: [{ type: "text", text: message }] };
+    }
 
     if (result.exitCode !== 0) {
       const message = result.stderr.trim() || result.stdout.trim() || `gh exited with code ${result.exitCode}.`;

@@ -40,6 +40,18 @@ describe("validateCommand", () => {
     });
   });
 
+  describe("api command - method validation", () => {
+    test('rejects api -X"POST" (concatenated short flag bypasses naive check)', () => {
+      const result = validateCommand('api -X"POST" /path');
+      expect(result.valid).toBe(false);
+    });
+
+    test('rejects api -X"DELETE" (concatenated short flag)', () => {
+      const result = validateCommand('api -X"DELETE" /path');
+      expect(result.valid).toBe(false);
+    });
+  });
+
   describe("api command", () => {
     test("allows api with no method flag (GET default)", () => {
       expect(validateCommand("api /repos/cli/cli")).toEqual({ valid: true });
