@@ -6,6 +6,7 @@ describe("executeGhCommand", () => {
 
   beforeEach(() => {
     spawnCalls.length = 0;
+    // Guard against GH_PATH inherited from the developer's shell environment.
     delete process.env.GH_PATH;
 
     // @ts-expect-error — overriding Bun.spawn for testing

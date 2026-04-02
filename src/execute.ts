@@ -1,5 +1,8 @@
 import { tokenize } from "./tokenize.js";
 
+/** The default gh binary name, resolved from the system PATH. */
+const DEFAULT_GH_BIN = "gh";
+
 /** Result of executing a gh CLI command. */
 export interface GhCommandResult {
   stdout: string;
@@ -16,7 +19,7 @@ export interface GhCommandResult {
  */
 export async function executeGhCommand(command: string): Promise<GhCommandResult> {
   const args = tokenize(command);
-  const ghBinary = process.env.GH_PATH || "gh";
+  const ghBinary = process.env.GH_PATH || DEFAULT_GH_BIN;
 
   const proc = Bun.spawn([ghBinary, ...args], {
     stdout: "pipe",
