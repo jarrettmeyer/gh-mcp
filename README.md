@@ -37,6 +37,26 @@ This is a very thin wrapper around the `gh` CLI.
 
 6. Restart Claude Desktop
 
+## Configuration
+
+### `GH_PATH`
+
+By default, the server resolves `gh` from your `PATH`. If `gh` is installed in a non-standard location (e.g. Homebrew on Apple Silicon), set `GH_PATH` to its absolute path:
+
+```json
+{
+  "mcpServers": {
+    "gh": {
+      "command": "/path/to/.bun/bin/bun",
+      "args": ["run", "/path/to/gh-mcp/src/index.ts"],
+      "env": {
+        "GH_PATH": "/opt/homebrew/bin/gh"
+      }
+    }
+  }
+}
+```
+
 ## Resources
 
 - [Bun](https://bun.com/)
