@@ -35,9 +35,9 @@ describe("executeGhCommand", () => {
   });
 
   test("uses GH_PATH when set", async () => {
-    process.env.GH_PATH = "/opt/homebrew/bin/gh";
+    process.env.GH_PATH = "/custom/path/to/gh";
     const { executeGhCommand } = await import("./execute");
     await executeGhCommand("issue list");
-    expect(spawnCalls[0][0]).toBe("/opt/homebrew/bin/gh");
+    expect(spawnCalls[0][0]).toBe("/custom/path/to/gh");
   });
 });
