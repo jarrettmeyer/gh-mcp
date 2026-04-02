@@ -1,8 +1,15 @@
-# CLAUDE.md
+This project is a locally running MCP server that wraps the `gh` CLI.
 
 ## Workflow
 
-Use git worktrees in `.worktrees/` for all changes. Create a pull request when work is complete.
+1. Always begin in Plan Mode, even for trivial changes. Every plan must include:
+   - The proposed branch and worktree name.
+   - Concrete validation steps.
+2. Always create a branch. Never work directly on `main`, even for trivial changes. Branch names should be short and descriptive, e.g. `refactor-auth`, `update-claude-md`.
+3. Use git worktrees in `.worktrees/` for all changes. Do not use the `EnterWorktree` tool. Instead, use `git worktree add .worktrees/<branch> -b <branch>`.
+4. Always use a tasks lists - `TaskCreate` - before starting work.
+5. Follow test-driven design (TDD).
+6. Create a pull request when work is complete.
 
 ## Changelog
 
