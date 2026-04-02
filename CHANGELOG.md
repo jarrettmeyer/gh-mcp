@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+### Added
+
+- `GH_PATH` environment variable to specify a custom path to the `gh` binary (defaults to `gh` on `PATH`).
+
 ## [0.1.1] - 2026-03-30
 
 ### Fixed

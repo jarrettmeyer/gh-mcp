@@ -16,8 +16,9 @@ export interface GhCommandResult {
  */
 export async function executeGhCommand(command: string): Promise<GhCommandResult> {
   const args = tokenize(command);
+  const ghBinary = process.env.GH_PATH || "gh";
 
-  const proc = Bun.spawn(["gh", ...args], {
+  const proc = Bun.spawn([ghBinary, ...args], {
     stdout: "pipe",
     stderr: "pipe",
   });
