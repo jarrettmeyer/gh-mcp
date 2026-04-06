@@ -25,6 +25,7 @@
     "format": "bun run prettier --write .",
     "format:check": "bun run prettier --check .",
     "start": "bun run src/index.ts",
+    "test": "bun test",
     "typecheck": "bun run tsc --noEmit"
   },
   "dependencies": {
