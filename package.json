@@ -8,6 +8,19 @@
     "email": "jarrettmeyer@gmail.com"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jarrettmeyer/gh-mcp.git"
+  },
+  "keywords": [
+    "mcp",
+    "github",
+    "gh",
+    "cli"
+  ],
+  "engines": {
+    "bun": ">=1.0.0"
+  },
   "scripts": {
     "format": "bun run prettier --write .",
     "format:check": "bun run prettier --check .",
