@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ### Added
 
+- MIT `LICENSE` file.
 - `GH_PATH` environment variable to specify a custom path to the `gh` binary (defaults to `gh` on `PATH`).
 
 ### Removed

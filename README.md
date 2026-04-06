@@ -74,3 +74,7 @@ By default, the server resolves `gh` from your `PATH`. If `gh` is installed in a
 - [GitHub CLI](https://cli.github.com/)
 - [jarrettmeyer/gh-mcp](https://github.com/jarrettmeyer/gh-mcp)
 - [Model Context Protocol TypeScript SDK](https://ts.sdk.modelcontextprotocol.io/)
+
+## License
+
+[MIT](LICENSE)
