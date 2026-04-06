@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-04-06
+
 ### Added
 
 - MIT `LICENSE` file.
 - `GH_PATH` environment variable to specify a custom path to the `gh` binary (defaults to `gh` on `PATH`).
+- Unit tests for `index.ts` handler logic.
 
 ### Removed
 
@@ -41,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Dependabot configuration for weekly npm dependency updates.
 - 34 unit tests covering validation and help flag handling.
 
-[Unreleased]: https://github.com/jarrettmeyer/gh-mcp/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/jarrettmeyer/gh-mcp/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/jarrettmeyer/gh-mcp/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/jarrettmeyer/gh-mcp/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/jarrettmeyer/gh-mcp/releases/tag/v0.1.0
