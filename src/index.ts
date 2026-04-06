@@ -2,7 +2,6 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { executeGhCommand } from "./execute.js";
-import { ALLOWED_COMMANDS_ANNOTATED, validateCommand } from "./validation.js";
 import pkg from "../package.json";
 
 const SendCommandInputSchema = z.object({
@@ -11,7 +10,8 @@ const SendCommandInputSchema = z.object({
 
 type SendCommandInput = z.infer<typeof SendCommandInputSchema>;
 
-const SEND_COMMAND_DESCRIPTION = `Execute a gh CLI command. Provide the arguments after \`gh\` — e.g. \`issue list --repo cli/cli\`. Allowed commands: ${ALLOWED_COMMANDS_ANNOTATED}.`;
+const SEND_COMMAND_DESCRIPTION =
+  "Execute a gh CLI command. Provide the arguments after `gh` — e.g. `issue list --repo cli/cli`.";
 
 const server = new McpServer({
   name: pkg.name,
@@ -26,21 +26,6 @@ server.registerTool(
     inputSchema: SendCommandInputSchema,
   },
   async ({ command }: SendCommandInput) => {
-    let validation;
-    try {
-      validation = validateCommand(command);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Command parsing failed.";
-      return { isError: true, content: [{ type: "text", text: message }] };
-    }
-
-    if (!validation.valid) {
-      return {
-        isError: true,
-        content: [{ type: "text", text: validation.reason }],
-      };
-    }
-
     let result;
     try {
       result = await executeGhCommand(command);
@@ -53,12 +38,7 @@ server.registerTool(
       const message = result.stderr.trim() || result.stdout.trim() || `gh exited with code ${result.exitCode}.`;
       return {
         isError: true,
-        content: [
-          {
-            type: "text",
-            text: `gh exited with code ${result.exitCode}:\n${message}`,
-          },
-        ],
+        content: [{ type: "text", text: `gh exited with code ${result.exitCode}:\n${message}` }],
       };
     }
 
