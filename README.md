@@ -2,6 +2,17 @@
 
 This is a very thin wrapper around the `gh` CLI.
 
+## Security
+
+**This server passes any command directly to `gh` without filtering.** It can do anything your authenticated GitHub token allows.
+
+To control what the server can do, scope your token:
+
+- **Recommended:** Create a [fine-grained personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) with only the repository access and permissions your AI tool needs.
+- **Alternatively:** Use a classic PAT with the minimum required scopes.
+
+The server prevents shell injection by design — commands are passed as argument arrays to `Bun.spawn`, never interpolated into a shell string.
+
 ## Installation
 
 1. Install the [GitHub CLI](https://cli.github.com/)
