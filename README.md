@@ -58,7 +58,7 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-Then restart Claude Desktop.
+Restart Claude Desktop.
 
 #### Claude Code
 
