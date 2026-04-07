@@ -45,6 +45,8 @@ bun install
 
 Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
+**Note**: `bun` installs to `~/.bun/bin/`, which is not on the default `PATH`. Use the full path to the `bun` executable.
+
 ```json
 {
   "mcpServers": {
@@ -55,8 +57,6 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
   }
 }
 ```
-
-**Note**: `bun` installs to `~/.bun/bin/`. This is not part of any default path, thus requiring the full path to the `bun` executable.
 
 Then restart Claude Desktop.
 
