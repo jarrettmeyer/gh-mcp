@@ -49,7 +49,7 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 {
   "mcpServers": {
     "gh": {
-      "command": "/path/to/.bun/bin/bun",
+      "command": "/Users/your-username/.bun/bin/bun",
       "args": ["run", "/path/to/gh-mcp/src/index.ts"]
     }
   }
@@ -63,13 +63,13 @@ Then restart Claude Desktop.
 Install from your terminal:
 
 ```bash
-claude mcp add gh -- /path/to/.bun/bin/bun run /path/to/gh-mcp/src/index.ts
+claude mcp add gh -- ~/.bun/bin/bun run /path/to/gh-mcp/src/index.ts
 ```
 
 If `gh` is in a non-standard location, pass `GH_PATH` via `--env`:
 
 ```bash
-claude mcp add gh --env GH_PATH=/opt/homebrew/bin/gh -- /path/to/.bun/bin/bun run /path/to/gh-mcp/src/index.ts
+claude mcp add gh --env GH_PATH=/opt/homebrew/bin/gh -- ~/.bun/bin/bun run /path/to/gh-mcp/src/index.ts
 ```
 
 ## Usage
@@ -107,7 +107,7 @@ By default, the server resolves `gh` from your `PATH`. If `gh` is installed in a
 {
   "mcpServers": {
     "gh": {
-      "command": "/path/to/.bun/bin/bun",
+      "command": "/Users/your-username/.bun/bin/bun",
       "args": ["run", "/path/to/gh-mcp/src/index.ts"],
       "env": {
         "GH_PATH": "/opt/homebrew/bin/gh"
