@@ -56,6 +56,8 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
+**Note**: `bun` installs to `~/.bun/bin/`. This is not part of any default path, thus requiring the full path to the `bun` executable.
+
 Then restart Claude Desktop.
 
 #### Claude Code
@@ -63,13 +65,13 @@ Then restart Claude Desktop.
 Install from your terminal:
 
 ```bash
-claude mcp add gh -- ~/.bun/bin/bun run /path/to/gh-mcp/src/index.ts
+claude mcp add gh -- bun run /path/to/gh-mcp/src/index.ts
 ```
 
 If `gh` is in a non-standard location, pass `GH_PATH` via `--env`:
 
 ```bash
-claude mcp add gh --env GH_PATH=/opt/homebrew/bin/gh -- ~/.bun/bin/bun run /path/to/gh-mcp/src/index.ts
+claude mcp add gh --env GH_PATH=/opt/homebrew/bin/gh -- bun run /path/to/gh-mcp/src/index.ts
 ```
 
 ## Usage
