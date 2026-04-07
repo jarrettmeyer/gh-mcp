@@ -19,7 +19,7 @@ The server prevents shell injection by design — commands are passed as argumen
 
 2. Verify your `gh` installation
 
-   ```bah
+   ```bash
    gh --version
    ```
 
@@ -31,9 +31,9 @@ The server prevents shell injection by design — commands are passed as argumen
    bun --version
    ```
 
-5. Update your Claude Desktop configuration
+5. Add the server to your MCP client
 
-   On MacOS, this is located at `~/Application Support/Claude/claude_desktop_config.json`.
+   **Claude Desktop** — edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
    ```json
    {
@@ -46,7 +46,19 @@ The server prevents shell injection by design — commands are passed as argumen
    }
    ```
 
-6. Restart Claude Desktop
+   Then restart Claude Desktop.
+
+   **Claude Code** — run from your terminal:
+
+   ```bash
+   claude mcp add gh -- /path/to/.bun/bin/bun run /path/to/gh-mcp/src/index.ts
+   ```
+
+   If `gh` is in a non-standard location, pass `GH_PATH` via `--env`:
+
+   ```bash
+   claude mcp add gh --env GH_PATH=/opt/homebrew/bin/gh -- /path/to/.bun/bin/bun run /path/to/gh-mcp/src/index.ts
+   ```
 
 ## Configuration
 
@@ -67,6 +79,33 @@ By default, the server resolves `gh` from your `PATH`. If `gh` is installed in a
   }
 }
 ```
+
+## Usage
+
+This server exposes a single MCP tool:
+
+### `send_command`
+
+Executes a `gh` CLI command. Pass everything that would follow `gh` on the command line as the `command` string.
+
+| Parameter | Type   | Description                              |
+| --------- | ------ | ---------------------------------------- |
+| `command` | string | The `gh` subcommand and arguments to run |
+
+**Examples:**
+
+```
+List open pull requests in a repo:
+  command: "pr list --repo owner/repo"
+
+View an issue:
+  command: "issue view 42 --repo owner/repo"
+
+Check the authenticated user:
+  command: "auth status"
+```
+
+This tool works with any MCP-compatible client, including Claude Desktop, Claude Code, and Cursor.
 
 ## Resources
 
