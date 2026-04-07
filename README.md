@@ -15,40 +15,91 @@ The server prevents shell injection by design — commands are passed as argumen
 
 ## Installation
 
-1. Install the [GitHub CLI](https://cli.github.com/)
+### 1. Install the GitHub CLI
 
-2. Verify your `gh` installation
+Download the [GitHub CLI](https://cli.github.com/). Or use `brew install gh`. Verify your installation.
 
-   ```bah
-   gh --version
-   ```
+```bash
+gh --version
+```
 
-3. Install [bun](https://bun.com/docs/installation)
+### 2. Install bun
 
-4. Verify your `bun` installation
+This project uses [bun](https://bun.com/docs/installation) for package management. Verify your installation.
 
-   ```bash
-   bun --version
-   ```
+```bash
+bun --version
+```
 
-5. Update your Claude Desktop configuration
+### 3. Clone the repo and install dependencies
 
-   On MacOS, this is located at `~/Application Support/Claude/claude_desktop_config.json`.
+```bash
+git clone https://github.com/jarrettmeyer/gh-mcp.git
+cd gh-mcp
+bun install
+```
 
-   ```json
-   {
-     "mcpServers": {
-       "gh": {
-         "command": "/path/to/.bun/bin/bun",
-         "args": ["run", "/path/to/gh-mcp/src/index.ts"]
-       }
-     }
-   }
-   ```
+### 4. Add the server to your MCP client
 
-6. Restart Claude Desktop
+#### Claude Desktop
 
-## Configuration
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
+
+**Note**: `bun` installs to `~/.bun/bin/`, which is not on the default `PATH`. Use the full path to the `bun` executable.
+
+```json
+{
+  "mcpServers": {
+    "gh": {
+      "command": "/Users/your-username/.bun/bin/bun",
+      "args": ["run", "/path/to/gh-mcp/src/index.ts"]
+    }
+  }
+}
+```
+
+Restart Claude Desktop.
+
+#### Claude Code
+
+Install from your terminal:
+
+```bash
+claude mcp add gh -- bun run /path/to/gh-mcp/src/index.ts
+```
+
+If `gh` is in a non-standard location, pass `GH_PATH` via `--env`:
+
+```bash
+claude mcp add gh --env GH_PATH=/opt/homebrew/bin/gh -- bun run /path/to/gh-mcp/src/index.ts
+```
+
+## Usage
+
+### `send_command`
+
+Execute a `gh` CLI command. Pass everything that would follow `gh` on the command line as the `command` string.
+
+| Parameter | Type   | Description                              |
+| --------- | ------ | ---------------------------------------- |
+| `command` | string | The `gh` subcommand and arguments to run |
+
+**Examples:**
+
+```text
+List open pull requests in a repo:
+  command: "pr list --repo owner/repo"
+
+View an issue:
+  command: "issue view 42 --repo owner/repo"
+
+Check the authenticated user:
+  command: "auth status"
+```
+
+This tool works with any MCP-compatible client, including Claude Desktop, Claude Code, and Cursor.
+
+## Additional Configuration
 
 ### `GH_PATH`
 
@@ -58,7 +109,7 @@ By default, the server resolves `gh` from your `PATH`. If `gh` is installed in a
 {
   "mcpServers": {
     "gh": {
-      "command": "/path/to/.bun/bin/bun",
+      "command": "/Users/your-username/.bun/bin/bun",
       "args": ["run", "/path/to/gh-mcp/src/index.ts"],
       "env": {
         "GH_PATH": "/opt/homebrew/bin/gh"
