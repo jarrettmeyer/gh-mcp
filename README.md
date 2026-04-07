@@ -78,7 +78,7 @@ claude mcp add gh --env GH_PATH=/opt/homebrew/bin/gh -- bun run /path/to/gh-mcp/
 
 ### `send_command`
 
-Executes a `gh` CLI command. Pass everything that would follow `gh` on the command line as the `command` string.
+Execute a `gh` CLI command. Pass everything that would follow `gh` on the command line as the `command` string.
 
 | Parameter | Type   | Description                              |
 | --------- | ------ | ---------------------------------------- |
